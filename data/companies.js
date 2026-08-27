@@ -24,4 +24,13 @@ window.COMPANIES = [
   { ticker: "CMG",   name: "Chipotle",             domain: "chipotle.com",    color: "#a81612", blurb: "The build-your-own burrito restaurant chain." },
   { ticker: "LULU",  name: "Lululemon",            domain: "lululemon.com",   color: "#82142c", blurb: "Makes yoga pants and athletic clothing." },
   { ticker: "SONY",  name: "Sony",                 domain: "sony.com",        color: "#000000", blurb: "Makes the PlayStation, TVs, and headphones." },
+  { ticker: "COST",  name: "Costco",               domain: "costco.com",      color: "#005daa", blurb: "The membership warehouse store with the food court hot dogs." },
+  { ticker: "NVDA",  name: "Nvidia",               domain: "nvidia.com",      color: "#76b900", blurb: "Makes the graphics chips that power video games and AI." },
+  { ticker: "META",  name: "Meta",                 domain: "meta.com",        color: "#0866ff", blurb: "Owns Facebook, Instagram, and WhatsApp." },
+  { ticker: "KR",    name: "Kroger",               domain: "kroger.com",      color: "#0060a9", blurb: "A big grocery store chain (also owns Ralphs and Fry's)." },
+  { ticker: "MSFT",  name: "Microsoft",            domain: "microsoft.com",   color: "#00a4ef", blurb: "Makes Windows, Xbox, and Minecraft." },
+  { ticker: "GOOGL", name: "Alphabet (Google)",    domain: "google.com",      color: "#4285f4", blurb: "Owns Google Search, YouTube, and Android." },
+  { ticker: "JNJ",   name: "Johnson & Johnson",    domain: "jnj.com",         color: "#cf0a2c", blurb: "Makes Band-Aids, baby shampoo, and Tylenol." },
+  { ticker: "PFE",   name: "Pfizer",               domain: "pfizer.com",      color: "#0093d0", blurb: "A medicine company that makes vaccines and other drugs." },
+  { ticker: "MRNA",  name: "Moderna",              domain: "modernatx.com",   color: "#dc0032", blurb: "A biotech company known for its mRNA vaccines." },
 ];

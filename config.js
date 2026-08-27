@@ -11,9 +11,8 @@ window.APP_CONFIG = {
   //   Finnhub:     https://finnhub.io/register        (recommended — higher free rate limit)
   //   Twelve Data: https://twelvedata.com/pricing      (works too, lower free rate limit)
   // then set provider + apiKey below. See README.md for the full walkthrough.
-  provider: "finhub",
-  provider: "da875upr01qo86cgch5gda875upr01qo86cgch60",
-  apiKey: "",
+  provider: "finnhub",
+  apiKey: "da875upr01qo86cgch5gda875upr01qo86cgch60",
 
   // Money settings — both girls get the same amounts.
   startingBalance: 1000,

@@ -25,6 +25,7 @@
       holdings: {}, // ticker -> { shares, costBasis }
       trades: [],
       priceHistory: {}, // ticker -> [{date, close}]
+      portfolioHistory: [], // [{date, close}] — total portfolio value (cash + holdings) each day
       lastAllowanceDate: todayStr(),
       passcode: CFG.defaultPasscode || "1234",
       createdAt: new Date().toISOString(),
@@ -81,6 +82,25 @@
     }
     if (hist.length > MAX_HISTORY_POINTS) hist.splice(0, hist.length - MAX_HISTORY_POINTS);
     state.priceHistory[ticker] = hist;
+  }
+
+  function recordPortfolioHistory(totalValue) {
+    const hist = state.portfolioHistory;
+    const today = todayStr();
+    if (hist.length && hist[hist.length - 1].date === today) {
+      hist[hist.length - 1].close = totalValue;
+    } else {
+      hist.push({ date: today, close: totalValue });
+    }
+    if (hist.length > MAX_HISTORY_POINTS) hist.splice(0, hist.length - MAX_HISTORY_POINTS);
+  }
+
+  // A quick, kid-friendly visual read: celebrate a real gain, stay neutral otherwise
+  // (never a sad/discouraging icon for a dip — just no icon at all).
+  function moodEmoji(gain) {
+    if (gain > 0.005) return "🎉 ";
+    if (gain < -0.005) return "📉 ";
+    return "";
   }
 
   function holdingValue(ticker) {
@@ -189,6 +209,11 @@
     return q.source === "simulated" ? `<span class="badge">simulated</span>` : "";
   }
 
+  function fmtShortDate(dateStr) {
+    const d = new Date(dateStr + "T00:00:00");
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  }
+
   function sparkline(history, width, height) {
     if (!history || history.length < 2) {
       return `<div class="spark-empty">Price history builds up the more you open the app 📈</div>`;
@@ -205,9 +230,13 @@
     });
     const trendUp = closes[closes.length - 1] >= closes[0];
     const color = trendUp ? "var(--up)" : "var(--down)";
+    const firstLabel = fmtShortDate(history[0].date);
+    const lastDate = history[history.length - 1].date;
+    const lastLabel = lastDate === todayStr() ? "Today" : fmtShortDate(lastDate);
     return `<svg viewBox="0 0 ${width} ${height}" class="spark" preserveAspectRatio="none">
       <polyline points="${points.join(" ")}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    </svg>`;
+    </svg>
+    <div class="spark-labels"><span>${firstLabel}</span><span>${lastLabel}</span></div>`;
   }
 
   // ---------------- routing / shell ----------------
@@ -271,6 +300,8 @@
 
     if (tickers.length) await loadQuotes(tickers);
     const totals = portfolioTotals();
+    recordPortfolioHistory(totals.total);
+    saveState();
 
     const holdingsHtml = tickers.length
       ? tickers
@@ -310,8 +341,9 @@
       <div class="hero">
         <div class="hero-label">Total portfolio value</div>
         <div class="hero-value">${fmtMoney(totals.total)}</div>
-        <div class="hero-gain ${changeClass(totals.gain)}">${fmtMoney(totals.gain)} (${fmtPct(totals.gainPct)}) all-time</div>
+        <div class="hero-gain ${changeClass(totals.gain)}">${moodEmoji(totals.gain)}${fmtMoney(totals.gain)} (${fmtPct(totals.gainPct)}) all-time</div>
       </div>
+      <div class="chart-wrap">${sparkline(state.portfolioHistory, 320, 90)}</div>
       <div class="cash-row">
         <div>💵 Cash to invest</div>
         <div class="cash-amount">${fmtMoney(totals.cash)}</div>

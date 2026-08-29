@@ -1,7 +1,7 @@
 // Minimal offline app-shell cache: lets the app still open (with whatever
 // prices were last loaded) if the iPad has no signal. Not required for the
 // app to work — if this fails to register, everything still works online.
-const CACHE_NAME = "moneytree-shell-v3";
+const CACHE_NAME = "moneytree-shell-v4";
 const SHELL_FILES = [
   "./",
   "./index.html",

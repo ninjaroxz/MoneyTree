@@ -436,7 +436,10 @@
               <div class="price-big">${fmtMoney(price)}</div>
               <div class="price-change ${changeClass(q.changePercent)}">${fmtMoney(q.change)} (${fmtPct(q.changePercent)}) today ${sourceBadge(q)}</div>
             </div>
-            <div class="chart-wrap">${sparkline(state.priceHistory[c.ticker] || window.MarketProvider.simulatedHistory(c.ticker, 14), 320, 90)}</div>`
+            <div class="chart-wrap">${sparkline(state.priceHistory[c.ticker] || window.MarketProvider.simulatedHistory(c.ticker, 14), 320, 90)}</div>
+            <a class="history-link" href="https://finance.yahoo.com/quote/${encodeURIComponent(c.ticker)}/" target="_blank" rel="noopener noreferrer">
+              📈 See ${esc(c.ticker)}'s full price history ↗
+            </a>`
           : `<div class="empty-state"><p>Couldn't load a price for ${esc(c.ticker)} right now.</p></div>`
       }
 
